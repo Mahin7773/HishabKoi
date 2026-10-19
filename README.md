@@ -3,9 +3,8 @@
 </p>
 
 <h1 align="center">HishabKoi</h1>
-<p align="center"><i>Spend smart, settle up.</i></p>
 
-HishabKoi is an Android app (Java) for tracking your own money and the money you lend to or borrow from friends. All amounts are in Taka (৳).
+HishabKoi is an Android app (Java) for tracking your own money and the money you lend to or borrow from friends.
 
 ## How it works
 
