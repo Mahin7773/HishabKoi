@@ -1,0 +1,33 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#E8F0FE','primaryBorderColor':'#0B57D0','primaryTextColor':'#1F1F1F','lineColor':'#5F6368','fontFamily':'Segoe UI, Arial','fontSize':'16px'}}}%%
+flowchart TD
+    A([Open HishabKoi]) --> B{Logged in?}
+    B -- No --> C[Log in / Create account<br/>email verification + unique @username]
+    C --> D
+    B -- Yes --> D[Home<br/>wallet balance, monthly stats, what you owe]
+
+    D --> P[Personal<br/>stored only on this phone - Room]
+    D --> F[Friends<br/>synced online - Firestore]
+
+    P --> P1[Add expense / income<br/>amount, category, note, date]
+    P1 --> P2[Transactions list]
+    P1 --> P3[Reports<br/>6-month bars + category donut]
+    P --> P4[Manage categories]
+
+    F --> F1[Borrow or Pay back<br/>send request to @username]
+    F1 --> F2{Friend accepts?}
+    F2 -- Declined --> F5[History]
+    F2 -- Accepted --> F3[Balances updated<br/>wallet adjusted]
+    F3 --> F5
+    F3 --> L{Debt loop found?<br/>A owes B, B owes C, C owes A}
+    L -- Yes --> L1[Circular settle proposal<br/>sent to every member]
+    L1 --> L2{Everyone agrees?}
+    L2 -- Yes --> L3[Smallest debt cancelled<br/>around the loop - no money moves]
+    L3 --> F3
+    L2 -- No --> F3
+
+    classDef personal fill:#E8F0FE,stroke:#0B57D0,color:#0B57D0
+    classDef friends fill:#EEE8FD,stroke:#5B3FD0,color:#3B2A8F
+    classDef loop fill:#F3E5FB,stroke:#7B2CBF,color:#5A1E8C
+    class P,P1,P2,P3,P4 personal
+    class F,F1,F2,F3,F5 friends
+    class L,L1,L2,L3 loop
