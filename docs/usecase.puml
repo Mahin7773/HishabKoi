@@ -1,0 +1,38 @@
+@startuml usecase
+!pragma layout smetana
+skinparam monochrome true
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam dpi 110
+left to right direction
+
+actor "User" as U
+actor "Friend" as F
+
+rectangle "HishabKoi" {
+  usecase "Sign up / Log in" as UC1
+  rectangle "Personal (on this phone)" {
+    usecase "Add expense or income" as UC2
+    usecase "View transactions and reports" as UC3
+    usecase "Manage categories" as UC4
+  }
+  rectangle "Friends (synced online)" {
+    usecase "Send borrow or repay request" as UC5
+    usecase "Accept or decline request" as UC6
+    usecase "View balances and history" as UC7
+    usecase "Approve circular settlement" as UC8
+  }
+}
+
+U -- UC1
+U -- UC2
+U -- UC3
+U -- UC4
+U -- UC5
+U -- UC7
+U -- UC8
+UC6 -- F
+UC8 -- F
+@enduml

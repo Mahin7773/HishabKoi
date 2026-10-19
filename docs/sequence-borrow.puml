@@ -1,0 +1,36 @@
+@startuml sequence-borrow
+skinparam monochrome true
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam dpi 110
+skinparam sequenceMessageAlign center
+hide footbox
+
+actor Borrower
+participant "Borrower's app" as BA
+database Firestore as DB
+participant "Lender's app" as LA
+actor Lender
+
+Borrower -> BA : Borrow Tk 500 from @lender
+BA -> DB : createRequest()
+note right of DB : txn status = PENDING
+Lender -> LA : Open Requests
+LA -> DB : history(me)
+DB --> LA : pending request
+Lender -> LA : Accept
+LA -> DB : respond(txnId, accept)
+activate DB
+note right of DB
+  one transaction:
+  txn status = ACCEPTED
+  debt.net += Tk 500
+end note
+DB --> LA : done
+deactivate DB
+Borrower -> BA : Open Home
+BA -> DB : debtsOf(me), history(me)
+DB --> BA : wallet +Tk 500, you owe Tk 500
+@enduml

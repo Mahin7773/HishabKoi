@@ -1,0 +1,40 @@
+@startuml sequence-circular
+skinparam monochrome true
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam dpi 110
+skinparam sequenceMessageAlign center
+skinparam sequenceGroupBodyBackgroundColor white
+hide footbox
+
+actor "Member A" as A
+participant "A's app" as AA
+database Firestore as DB
+participant "Others' apps" as OA
+actor "Other members" as O
+
+A -> AA : Open Circular settle
+AA -> DB : findCycles(me)
+DB --> AA : loop A → B → C → A
+A -> AA : Agree
+AA -> DB : approve(cycleKey, loop)
+note right of DB : proposal OPEN, approvals = [A]
+O -> OA : Open Circular settle
+OA -> DB : openProposals(me)
+DB --> OA : proposal
+O -> OA : Agree (last member)
+OA -> DB : approve(cycleKey)
+alt everyone agreed and loop still exists
+  note right of DB
+    one transaction:
+    every debt in loop −= smallest debt
+    CYCLE entry added to history
+    proposal APPLIED
+  end note
+else <U+2003>a debt in the loop is already paid
+  note right of DB : proposal STALE
+end
+DB --> OA : outcome
+@enduml

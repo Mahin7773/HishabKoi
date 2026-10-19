@@ -1,0 +1,76 @@
+@startuml class
+!pragma layout smetana
+skinparam monochrome true
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam dpi 110
+skinparam classAttributeIconSize 0
+hide circle
+hide empty members
+
+package "Personal (Room, on this phone)" {
+  class Entry {
+    ownerUid : String
+    type : String
+    amountCents : long
+    category : String
+    timestamp : long
+  }
+  class Category {
+    name : String
+    type : String
+  }
+}
+
+package "Friends (Firestore, synced online)" {
+  class User {
+    uid : String
+    username : String
+    email : String
+  }
+  class Txn {
+    type : String
+    status : String
+    borrowerUid : String
+    lenderUid : String
+    amount : long
+    walletEffect(me) : long
+  }
+  class Debt {
+    participants : List
+    net : long
+    previousNet : Long
+    owedBy(uid) : long
+  }
+  class Proposal {
+    members : List
+    approvals : List
+    status : String
+    asCycle() : Cycle
+  }
+}
+
+package "Debt loop (in memory)" {
+  class Cycle {
+    minAmount() : long
+    key() : String
+  }
+  class Edge {
+    from : String
+    to : String
+    amount : long
+  }
+}
+
+Entry "*" --> "1" Category : category
+Entry "*" --> "1" User : ownerUid
+Txn "*" --> "2" User : borrower, lender
+Debt "*" --> "2" User : participants
+Txn "*" --> "1" Debt : accepted\nchanges net
+Proposal "1" *-- "3..8" Edge
+Cycle "1" *-- "3..8" Edge
+Proposal ..> Cycle
+Edge ..> Debt : one debt\nin the loop
+@enduml

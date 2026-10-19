@@ -30,6 +30,34 @@ Firestore security rules (`firestore.rules`) only allow valid balance changes. E
   <img src="docs/flowchart.png" width="820" alt="App flowchart">
 </p>
 
+## UML diagrams
+
+### Use cases
+
+<p align="center">
+  <img src="docs/usecase.png" alt="UML use case diagram">
+</p>
+
+### Classes
+
+`Entry` and `Category` are stored only on the phone. `User`, `Txn`, `Debt` and `Proposal` are Firestore documents. `Cycle` and `Edge` describe a debt loop: each `Edge` is one `Debt` in the loop, and a `Proposal` stores its edges until every member agrees.
+
+<p align="center">
+  <img src="docs/class.png" alt="UML class diagram">
+</p>
+
+### Sequence: borrowing money
+
+<p align="center">
+  <img src="docs/sequence-borrow.png" alt="UML sequence diagram for a borrow request">
+</p>
+
+### Sequence: circular settlement
+
+<p align="center">
+  <img src="docs/sequence-circular.png" alt="UML sequence diagram for circular settlement">
+</p>
+
 ## Screenshots
 
 | Login | Home | Add expense |
