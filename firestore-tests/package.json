@@ -1,0 +1,13 @@
+{
+  "name": "hishabkoi-firestore-tests",
+  "private": true,
+  "description": "Security rules tests. Run: npm install && npm test (needs Java for the Firestore emulator).",
+  "scripts": {
+    "test": "firebase emulators:exec --only firestore --project demo-hishab \"node rules.test.js\""
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "3.0.4",
+    "firebase": "10.14.1",
+    "firebase-tools": "13.29.1"
+  }
+}

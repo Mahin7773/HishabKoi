@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Toolbar log out: red icon on a light red circle, so it reads as leaving. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="40dp" android:height="40dp" android:gravity="center">
+        <shape android:shape="oval">
+            <solid android:color="@color/delete_bg" />
+        </shape>
+    </item>
+    <item android:width="22dp" android:height="22dp" android:gravity="center">
+        <vector
+            android:width="22dp"
+            android:height="22dp"
+            android:viewportWidth="960"
+            android:viewportHeight="960">
+            <group android:translateY="960">
+                <path
+                    android:fillColor="@color/solid_red"
+                    android:pathData="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

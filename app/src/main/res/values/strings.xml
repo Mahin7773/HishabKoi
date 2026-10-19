@@ -1,0 +1,137 @@
+<resources>
+    <string name="app_name">HishabKoi</string>
+    <string name="channel_name">Loans and settlements</string>
+    <string name="channel_desc">Requests and settlements</string>
+
+    <!-- Auth -->
+    <string name="login_title">Welcome back</string>
+    <string name="login_subtitle">Spend smart, settle up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="username">Username</string>
+    <string name="username_helper">a–z, 0–9 and _ · 3–20 characters</string>
+    <string name="log_in">Log in</string>
+    <string name="create_account">Create account</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="signup_title">Create your account</string>
+    <string name="signup_subtitle">We\'ll email you a verification link</string>
+    <string name="sign_up">Sign up</string>
+    <string name="have_account">I already have an account</string>
+    <string name="new_here">New to HishabKoi?</string>
+    <string name="err_email">Enter a valid email</string>
+    <string name="err_password">At least 6 characters</string>
+    <string name="err_password_match">Passwords do not match</string>
+    <string name="err_username">3–20 characters: a–z, 0–9 and _</string>
+    <string name="err_username_taken">This username is taken</string>
+    <string name="verify_title">Verify your email</string>
+    <string name="verify_sent">Link sent to %1$s. Verify, then log in.</string>
+    <string name="verify_needed">Verify %1$s first. Check your inbox.</string>
+    <string name="resend_email">Resend email</string>
+    <string name="email_resent">Verification email sent</string>
+    <string name="reset_sent">Password reset email sent to %1$s</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="choose_username">Choose a username</string>
+    <string name="save">Save</string>
+
+    <!-- Home -->
+    <string name="refresh">Refresh</string>
+    <string name="back">Back</string>
+    <string name="log_out">Log out</string>
+    <string name="log_out_message">Loans stay online. Personal entries stay on this phone.</string>
+    <string name="hello_user">\@%1$s</string>
+    <string name="wallet_balance">Wallet balance</string>
+    <string name="this_month_income">Income this month</string>
+    <string name="this_month_expense">Spent this month</string>
+    <string name="you_owe">You owe</string>
+    <string name="owed_to_you">Owed to you</string>
+    <string name="section_personal">Personal</string>
+    <string name="section_personal_sub">Only on this phone</string>
+    <string name="section_shared">Friends</string>
+    <string name="section_shared_sub">Synced online</string>
+    <string name="tile_add_expense">Add expense</string>
+    <string name="tile_add_income">Add income</string>
+    <string name="tile_transactions">Transactions</string>
+    <string name="tile_reports">Reports</string>
+    <string name="tile_categories">Categories</string>
+    <string name="tile_borrow">Borrow</string>
+    <string name="tile_repay">Pay back</string>
+    <string name="tile_requests">Requests</string>
+    <string name="tile_balances">Balances</string>
+    <string name="tile_history">History</string>
+    <string name="tile_circular">Circular settle</string>
+    <string name="circular_tagline">Cancel out debt loops</string>
+
+    <!-- Entries -->
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="amount">Amount (৳)</string>
+    <string name="category">Category</string>
+    <string name="note_optional">Note (optional)</string>
+    <string name="date">Date</string>
+    <string name="err_amount">Enter an amount above 0</string>
+    <string name="err_category">Pick a category</string>
+    <string name="saved">Saved</string>
+    <string name="delete">Delete</string>
+    <string name="delete_entry_q">Delete this entry?</string>
+    <string name="no_entries">Nothing this month</string>
+    <string name="month_summary">In %1$s  ·  Out %2$s</string>
+    <string name="previous_month">Previous month</string>
+    <string name="next_month">Next month</string>
+
+    <!-- Reports -->
+    <string name="chart_six_months">Last 6 months</string>
+    <string name="chart_by_category">By category</string>
+    <string name="no_spending">No spending this month</string>
+
+    <!-- Categories -->
+    <string name="new_category">New category</string>
+    <string name="add">Add</string>
+    <string name="category_exists">Already exists</string>
+    <string name="no_categories">No categories yet</string>
+
+    <!-- Requests -->
+    <string name="borrow_explain">Added to your wallet once they accept</string>
+    <string name="repay_explain">Your debt drops once they confirm</string>
+    <string name="friend_username">Username</string>
+    <string name="send_request">Send request</string>
+    <string name="people_you_know">Recent</string>
+    <string name="request_sent">Request sent to @%1$s</string>
+    <string name="err_user_not_found">No user called @%1$s</string>
+    <string name="err_self">That\'s you</string>
+    <string name="waiting_for_you">For you</string>
+    <string name="sent_by_you">Sent</string>
+    <string name="no_requests">No requests</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel_request">Cancel request</string>
+    <string name="toast_loan_accepted">Lent %1$s to @%2$s</string>
+    <string name="toast_loan_declined">Declined @%1$s · %2$s</string>
+    <string name="toast_repay_confirmed">@%2$s paid you %1$s</string>
+    <string name="toast_repay_declined">Declined @%1$s · %2$s</string>
+    <string name="toast_cancelled">Cancelled · @%1$s · %2$s</string>
+
+    <!-- Balances / history -->
+    <string name="no_balances">No debts yet</string>
+    <string name="no_history">Nothing yet</string>
+    <string name="settled">Settled</string>
+    <string name="cycle_settled">Circular settle</string>
+    <string name="no_money_moved">No money moved</string>
+
+    <!-- Circular -->
+    <string name="circular_explain">Debts in a loop can cancel out. No money moves, and everyone must agree.</string>
+    <string name="scan_loops">Scan for loops</string>
+    <string name="proposals">Proposals</string>
+    <string name="loops_found">Loops found</string>
+    <string name="no_loops">No loops found</string>
+    <string name="propose">Propose</string>
+    <string name="agree">Agree</string>
+    <string name="reject">Reject</string>
+    <string name="scanning">Scanning…</string>
+    <string name="proposal_sent">Proposal sent</string>
+    <string name="proposal_applied">Settled!</string>
+    <string name="proposal_stale">Debts changed. Loop is gone.</string>
+    <string name="agreed_waiting">Agreed. Waiting for others.</string>
+</resources>

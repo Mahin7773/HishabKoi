@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:logo="@drawable/logo_toolbar"
+        app:menu="@menu/menu_main"
+        app:title="@string/app_name"
+        app:titleTextAppearance="@style/TextAppearance.HishabKoi.ToolbarBrand" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="24dp">
+
+            <!-- Summary: balance and account tag, then four figures spaced out in a 2x2 grid. -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/brand_blue"
+                app:cardCornerRadius="24dp"
+                app:strokeColor="@color/glass_on_solid_stroke"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="4dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:includeFontPadding="false"
+                            android:alpha="0.85"
+                            android:text="@string/wallet_balance"
+                            android:textAppearance="?attr/textAppearanceLabelLarge"
+                            android:textColor="@color/white" />
+
+                        <!-- Account tag: bold on a translucent pill so it reads as a label. -->
+                        <TextView
+                            android:id="@+id/tv_user"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_user_pill"
+                            android:includeFontPadding="false"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="6dp"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textColor="@color/white"
+                            android:textFontWeight="700"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_wallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:includeFontPadding="false"
+                        android:paddingHorizontal="4dp"
+                        android:textAppearance="?attr/textAppearanceHeadlineLarge"
+                        android:textColor="@color/white"
+                        android:textFontWeight="700" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:baselineAligned="false">
+
+                        <include
+                            android:id="@+id/stat_income"
+                            layout="@layout/item_stat"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            android:id="@+id/stat_expense"
+                            layout="@layout/item_stat"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:baselineAligned="false">
+
+                        <include
+                            android:id="@+id/stat_owe"
+                            layout="@layout/item_stat"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            android:id="@+id/stat_owed"
+                            layout="@layout/item_stat"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Two panels make it obvious which features are local and which are shared. -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/panel_personal"
+                style="@style/Widget.HishabKoi.Glass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/panel_local">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="8dp">
+
+                    <include
+                        android:id="@+id/section_personal"
+                        layout="@layout/view_section_header" />
+
+                    <GridLayout
+                        android:id="@+id/grid_personal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="5" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/panel_shared"
+                style="@style/Widget.HishabKoi.Glass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/panel_synced">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="8dp">
+
+                    <include
+                        android:id="@+id/section_shared"
+                        layout="@layout/view_section_header" />
+
+                    <!-- Circular settle gets its own feature card so it stands out from the grid. -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_circular"
+                        style="@style/Widget.Material3.CardView.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
+                        android:layout_marginBottom="10dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardBackgroundColor="@color/feature_purple"
+                        app:cardCornerRadius="22dp"
+                        app:strokeColor="@color/glass_on_solid_stroke"
+                        app:strokeWidth="1dp"
+                        app:rippleColor="#33FFFFFF">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="16dp">
+
+                            <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@drawable/bg_white_circle"
+                                android:importantForAccessibility="no"
+                                android:padding="11dp"
+                                android:src="@drawable/ic_cycle"
+                                app:tint="@color/white" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:includeFontPadding="false"
+                                    android:text="@string/tile_circular"
+                                    android:textAppearance="?attr/textAppearanceTitleLarge"
+                                    android:textColor="@color/white"
+                                    android:textFontWeight="700" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:alpha="0.85"
+                                    android:includeFontPadding="false"
+                                    android:text="@string/circular_tagline"
+                                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/circular_badge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_badge"
+                                android:gravity="center"
+                                android:includeFontPadding="false"
+                                android:minWidth="22dp"
+                                android:paddingHorizontal="7dp"
+                                android:textAppearance="?attr/textAppearanceLabelMedium"
+                                android:textColor="?attr/colorOnError"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginStart="8dp"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/ic_chevron_right"
+                                app:tint="@color/white" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <GridLayout
+                        android:id="@+id/grid_shared"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="5" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

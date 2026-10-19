@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Main action on "With friends" screens: indigo, faded while disabled. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:alpha="0.38" android:color="@color/tile_synced_icon" android:state_enabled="false" />
+    <item android:color="@color/tile_synced_icon" />
+</selector>

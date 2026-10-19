@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Toolbar refresh: brand-blue icon on a light blue circle. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="40dp" android:height="40dp" android:gravity="center">
+        <shape android:shape="oval">
+            <solid android:color="@color/tile_local" />
+        </shape>
+    </item>
+    <item android:width="22dp" android:height="22dp" android:gravity="center">
+        <vector
+            android:width="22dp"
+            android:height="22dp"
+            android:viewportWidth="960"
+            android:viewportHeight="960">
+            <group android:translateY="960">
+                <path
+                    android:fillColor="@color/tile_local_icon"
+                    android:pathData="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

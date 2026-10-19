@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1023383886633",
+    "project_id": "hishabkoi-55957",
+    "storage_bucket": "hishabkoi-55957.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023383886633:android:7d62df6e7cd8995a083538",
+        "android_client_info": {
+          "package_name": "com.example.hishabkoi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdfwjtKXLinrJakGrQgw8gwBVXOm6VgoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

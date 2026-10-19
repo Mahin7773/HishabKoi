@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name=".HishabApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.HishabKoi">
+
+        <!-- Home. Redirects to login when nobody (verified) is signed in. -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".auth.LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".auth.SignupActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".expense.AddEntryActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".expense.EntriesActivity" />
+        <activity android:name=".expense.ReportsActivity" />
+        <activity
+            android:name=".expense.CategoriesActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".loans.RequestActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".loans.RequestsActivity" />
+        <activity android:name=".loans.BalancesActivity" />
+        <activity android:name=".loans.HistoryActivity" />
+        <activity android:name=".loans.CircularActivity" />
+    </application>
+
+</manifest>

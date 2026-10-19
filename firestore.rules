@@ -1,0 +1,242 @@
+rules_version = '2';
+
+// Paste into Firebase console > Firestore Database > Rules (or deploy with `firebase deploy --only firestore:rules`).
+// Data model is documented in app/src/main/java/com/example/hishabkoi/cloud/Cloud.java.
+//
+// Every balance change is checked against the event that justifies it:
+//   - a pair balance moves by exactly the amount of a request the lender is accepting right now, or
+//   - every debt in a loop drops by the same amount, in the same write that closes an agreed proposal.
+// Approvals can only be added by their owner, so nobody can agree on someone else's behalf.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
+    function me() { return request.auth.uid; }
+    function changes(keys) { return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys); }
+    // Paths are written out in full: $(...) inserts a single path segment, so a string like
+    // 'txns/' + id cannot be spliced in as two segments.
+    function proposalBefore(pid) { return get(/databases/$(database)/documents/proposals/$(pid)); }
+    function proposalAfter(pid) { return getAfter(/databases/$(database)/documents/proposals/$(pid)); }
+    function pairId(a, b) { return a < b ? a + '_' + b : b + '_' + a; }
+
+    // ---------------------------------------------------------------- loops (at most 8 people)
+
+    function edgeIs(edges, i, from, to) {
+      return edges.size() > i && edges[i].from == from && edges[i].to == to;
+    }
+    // Rules have no loops, so the eight possible positions are spelled out.
+    function isEdge(edges, from, to) {
+      return edgeIs(edges, 0, from, to) || edgeIs(edges, 1, from, to) || edgeIs(edges, 2, from, to)
+          || edgeIs(edges, 3, from, to) || edgeIs(edges, 4, from, to) || edgeIs(edges, 5, from, to)
+          || edgeIs(edges, 6, from, to) || edgeIs(edges, 7, from, to);
+    }
+    // Edge i goes from members[i] to the next member, the last one closes the loop, and
+    // debtIds[i] names that pair's balance document.
+    function linkOk(d, i) {
+      return d.members.size() <= i
+          || (d.edges[i].from == d.members[i] && d.edges[i].to == d.members[(i + 1) % d.members.size()]
+              && d.edges[i].amount is int && d.edges[i].amount > 0
+              && d.debtIds[i] == pairId(d.edges[i].from, d.edges[i].to));
+    }
+    function wellFormedLoop(d) {
+      return d.members is list && d.edges is list && d.debtIds is list
+          && d.members.size() >= 3 && d.members.size() <= 8
+          && d.edges.size() == d.members.size() && d.debtIds.size() == d.members.size()
+          && d.members.toSet().size() == d.members.size()
+          && linkOk(d, 0) && linkOk(d, 1) && linkOk(d, 2) && linkOk(d, 3)
+          && linkOk(d, 4) && linkOk(d, 5) && linkOk(d, 6) && linkOk(d, 7);
+    }
+    // A fresh (or re-opened) proposal: OPEN, created by me, and only my own approval.
+    function freshProposal(d) {
+      return wellFormedLoop(d) && me() in d.members && d.createdBy == me()
+          && d.status == 'OPEN' && d.approvals == [me()] && d.createdAt is int;
+    }
+    // The debt for one edge was settled in this write: stamped with this proposal and this
+    // round's closing time. Rounds of the same loop are strictly ordered in time (a re-opened
+    // proposal must start after the previous one closed), so an older stamp can't pass.
+    function debtSettled(pid, id, closedAt) {
+      let d = getAfter(/databases/$(database)/documents/debts/$(id)).data;
+      return d.lastProposalId == pid && d.changedBy == 'CYCLE' && d.updatedAt == closedAt && d.previousNet != d.net;
+    }
+    // One read per debt (at most 8), inside Firestore's 10 reads per document. The debt ids are
+    // stored on the proposal (checked at creation) because rebuilding them here for every edge
+    // runs past the rules engine's expression limit.
+    function allEdgesSettled(pid, ids, closedAt) {
+      let n = ids.size();
+      return (n <= 0 || debtSettled(pid, ids[0], closedAt)) && (n <= 1 || debtSettled(pid, ids[1], closedAt))
+          && (n <= 2 || debtSettled(pid, ids[2], closedAt)) && (n <= 3 || debtSettled(pid, ids[3], closedAt))
+          && (n <= 4 || debtSettled(pid, ids[4], closedAt)) && (n <= 5 || debtSettled(pid, ids[5], closedAt))
+          && (n <= 6 || debtSettled(pid, ids[6], closedAt)) && (n <= 7 || debtSettled(pid, ids[7], closedAt));
+    }
+    // True when this same write turns an OPEN proposal I am in into APPLIED.
+    function appliesProposal(pid) {
+      let after = proposalAfter(pid);
+      return after != null && after.data.status == 'APPLIED' && me() in after.data.members
+          && proposalBefore(pid).data.status == 'OPEN';
+    }
+
+    // ---------------------------------------------------------------- loan requests
+
+    // True when this same write accepts a pending request addressed to me.
+    function acceptsTxn(tid) {
+      let before = get(/databases/$(database)/documents/txns/$(tid));
+      let after = getAfter(/databases/$(database)/documents/txns/$(tid));
+      return before.data.status == 'PENDING'
+          && after.data.status == 'ACCEPTED'
+          && before.data.respondTo == me();
+    }
+    // The pair balance after accepting request tid: borrowing adds to what the borrower owes,
+    // repaying takes it away. net > 0 means participants[0] owes participants[1].
+    function txnNetOk(tid, oldNet) {
+      let t = get(/databases/$(database)/documents/txns/$(tid)).data;
+      let delta = t.type == 'BORROW' ? t.amount : -t.amount;
+      let signed = request.resource.data.participants[0] == t.borrowerUid ? delta : -delta;
+      return request.resource.data.participants.toSet() == [t.borrowerUid, t.lenderUid].toSet()
+          && request.resource.data.net == oldNet + signed
+          && request.resource.data.previousNet == oldNet;
+    }
+
+    // Username reservations. Readable by anyone so sign-up can check availability.
+    match /usernames/{name} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if signedIn()
+          && request.resource.data.uid == me()
+          && name.matches('^[a-z0-9_]{3,20}$');
+      allow update, delete: if false;
+    }
+
+    // A profile can only claim the username its owner reserved, and the username never changes.
+    match /users/{uid} {
+      allow read: if verified();
+      allow create: if signedIn() && uid == me()
+          && getAfter(/databases/$(database)/documents/usernames/$(request.resource.data.username)).data.uid == me();
+      allow update: if signedIn() && uid == me()
+          && request.resource.data.username == resource.data.username;
+      allow delete: if false;
+    }
+
+    // Loan events.
+    match /txns/{id} {
+      allow read: if verified() && me() in resource.data.participants;
+
+      allow create: if verified() && (
+          // Borrow / repay request: I am the borrower, it starts pending, and only the lender can answer.
+          (request.resource.data.type in ['BORROW', 'REPAY']
+            && request.resource.data.requestedBy == me()
+            && request.resource.data.borrowerUid == me()
+            && request.resource.data.lenderUid != me()
+            && request.resource.data.respondTo == request.resource.data.lenderUid
+            && request.resource.data.participants == [me(), request.resource.data.lenderUid]
+            && request.resource.data.status == 'PENDING'
+            && request.resource.data.amount is int
+            && request.resource.data.amount > 0)
+          // Audit record written while applying a circular settlement: one per edge of the loop,
+          // for the amount actually cancelled.
+          || (request.resource.data.type == 'CYCLE'
+            && appliesProposal(request.resource.data.proposalId)
+            && isEdge(proposalAfter(request.resource.data.proposalId).data.edges,
+                      request.resource.data.borrowerUid, request.resource.data.lenderUid)
+            && request.resource.data.amount == proposalAfter(request.resource.data.proposalId).data.appliedAmount
+            && request.resource.data.participants == [request.resource.data.borrowerUid, request.resource.data.lenderUid]
+            && request.resource.data.status == 'ACCEPTED'));
+
+      allow update: if verified()
+          && resource.data.status == 'PENDING'
+          && changes(['status', 'respondedAt'])
+          && ((me() == resource.data.respondTo && request.resource.data.status in ['ACCEPTED', 'DECLINED'])
+              || (me() == resource.data.requestedBy && request.resource.data.status == 'CANCELLED'));
+
+      allow delete: if false;
+    }
+
+    // Pair balances. Readable by any verified user so loop detection can walk the debt graph.
+    match /debts/{pair} {
+      allow read: if verified();
+
+      // First request between two people: the balance starts at 0.
+      allow create: if verified()
+          && request.resource.data.participants[0] + '_' + request.resource.data.participants[1] == pair
+          && request.resource.data.changedBy == 'TXN'
+          && me() in request.resource.data.participants
+          && acceptsTxn(request.resource.data.lastTxnId)
+          && txnNetOk(request.resource.data.lastTxnId, 0);
+
+      allow update: if verified()
+          && request.resource.data.participants == resource.data.participants
+          && (
+            // Accepting a request: moves by exactly that request's amount.
+            (request.resource.data.changedBy == 'TXN'
+              && me() in resource.data.participants
+              && acceptsTxn(request.resource.data.lastTxnId)
+              && txnNetOk(request.resource.data.lastTxnId, resource.data.net))
+            // Applying a circular settlement: this pair must be an edge of the loop, and the
+            // debtor's debt drops by the agreed amount without changing direction.
+            || (request.resource.data.changedBy == 'CYCLE'
+              && changes(['net', 'previousNet', 'changedBy', 'lastProposalId', 'updatedAt'])
+              && appliesProposal(request.resource.data.lastProposalId)
+              && request.resource.data.previousNet == resource.data.net
+              && request.resource.data.updatedAt == proposalAfter(request.resource.data.lastProposalId).data.closedAt
+              && cycleNetOk(proposalAfter(request.resource.data.lastProposalId).data)));
+      allow delete: if false;
+    }
+
+    // net > 0: participants[0] owes participants[1]. The debtor's side shrinks towards 0 by `amount`.
+    function cycleNetOk(p) {
+      let parts = resource.data.participants;
+      let oldNet = resource.data.net;
+      let newNet = request.resource.data.net;
+      return p.appliedAmount is int && p.appliedAmount > 0
+          && ((oldNet > 0 && isEdge(p.edges, parts[0], parts[1])
+                && newNet == oldNet - p.appliedAmount && newNet >= 0)
+              || (oldNet < 0 && isEdge(p.edges, parts[1], parts[0])
+                && newNet == oldNet + p.appliedAmount && newNet <= 0));
+    }
+
+    // Circular settlement proposals; id is the loop's canonical key.
+    match /proposals/{pid} {
+      allow read: if verified() && (resource == null || me() in resource.data.members);
+
+      allow create: if verified() && freshProposal(request.resource.data);
+
+      allow update: if verified() && (
+          // Agree: add only my own approval.
+          (resource.data.status == 'OPEN' && me() in resource.data.members
+            && changes(['approvals'])
+            && approvalAdded())
+          // Reject: anyone in the loop can close it.
+          || (resource.data.status == 'OPEN' && me() in resource.data.members
+            && changes(['status', 'rejectedBy', 'closedAt'])
+            && request.resource.data.status == 'REJECTED'
+            && request.resource.data.rejectedBy == me())
+          // Last agreement: everyone has now agreed. APPLIED needs every debt in the loop to be
+          // settled in this same write; STALE (a debt was already paid off) changes nothing else.
+          || (resource.data.status == 'OPEN' && me() in resource.data.members
+            && changes(['approvals', 'status', 'closedAt', 'appliedAmount'])
+            && approvalAdded()
+            && request.resource.data.approvals.hasAll(resource.data.members)
+            && ((request.resource.data.status == 'APPLIED'
+                  && request.resource.data.appliedAmount is int
+                  && request.resource.data.appliedAmount > 0
+                  && request.resource.data.closedAt is int
+                  && request.resource.data.closedAt > resource.data.createdAt
+                  && allEdgesSettled(pid, resource.data.debtIds, request.resource.data.closedAt))
+                || (request.resource.data.status == 'STALE'
+                  && !('appliedAmount' in request.resource.data))))
+          // A closed proposal can be opened again by a member, starting over after it closed.
+          || (resource.data.status != 'OPEN' && freshProposal(request.resource.data)
+            && request.resource.data.createdAt > resource.data.closedAt));
+
+      allow delete: if false;
+    }
+
+    // My approval is appended (or was already there and nothing changes).
+    function approvalAdded() {
+      let before = resource.data.approvals;
+      let after = request.resource.data.approvals;
+      return (!(me() in before) && after == before.concat([me()]))
+          || (me() in before && after == before);
+    }
+  }
+}

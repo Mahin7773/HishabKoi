@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/nav_back"
+        app:navigationContentDescription="@string/back"
+        app:title="@string/tile_reports" />
+
+    <include
+        android:id="@+id/month_bar"
+        layout="@layout/view_month_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            android:paddingBottom="12dp">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/panel_local"
+                app:cardCornerRadius="28dp"
+                app:strokeColor="@color/glass_stroke"
+                app:strokeWidth="1.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Title with the legend on the same line. -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/bg_circle"
+                            android:backgroundTint="@color/tile_local_icon"
+                            android:importantForAccessibility="no"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_bar_chart"
+                            app:tint="@color/on_solid" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:includeFontPadding="false"
+                            android:text="@string/chart_six_months"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textColor="@color/tile_local_icon"
+                            android:textFontWeight="700" />
+
+                        <LinearLayout
+                            android:id="@+id/bar_legend"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" />
+                    </LinearLayout>
+
+                    <com.example.hishabkoi.expense.BarChartView
+                        android:id="@+id/bar_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="190dp"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardBackgroundColor="@color/panel_local"
+                app:cardCornerRadius="28dp"
+                app:strokeColor="@color/glass_stroke"
+                app:strokeWidth="1.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/bg_circle"
+                            android:backgroundTint="@color/tile_local_icon"
+                            android:importantForAccessibility="no"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_category"
+                            app:tint="@color/on_solid" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:text="@string/chart_by_category"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textColor="@color/tile_local_icon"
+                            android:textFontWeight="700" />
+                    </LinearLayout>
+
+                    <!-- Donut on the left, its legend beside it. -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.example.hishabkoi.expense.DonutChartView
+                            android:id="@+id/donut_chart"
+                            android:layout_width="148dp"
+                            android:layout_height="148dp" />
+
+                        <LinearLayout
+                            android:id="@+id/donut_legend"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

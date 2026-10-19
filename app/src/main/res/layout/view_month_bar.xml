@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Month picker used by Transactions and Reports, styled like the home "Personal" panel. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bg_panel_local"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="10dp">
+
+    <Button
+        android:id="@+id/btn_prev"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/previous_month"
+        app:backgroundTint="@color/tile_local_icon"
+        app:icon="@drawable/ic_chevron_left"
+        app:iconTint="@color/on_solid" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textColor="@color/tile_local_icon"
+            android:textFontWeight="700" />
+
+        <TextView
+            android:id="@+id/tv_month_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:includeFontPadding="false"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/next_month"
+        app:backgroundTint="@color/tile_local_icon"
+        app:icon="@drawable/ic_chevron_right"
+        app:iconTint="@color/on_solid" />
+</LinearLayout>

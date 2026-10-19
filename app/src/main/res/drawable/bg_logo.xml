@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Rounded-square tile behind the app mark on the auth screens. Solid colour, no gradient. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/brand_blue" />
+    <corners android:radius="32dp" />
+</shape>

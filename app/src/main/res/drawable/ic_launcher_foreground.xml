@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher symbol: the two arrows of Material Symbols "currency_exchange" around a taka sign
+     (৳ from Google Sans, weight 600), white,
+     sized to 56dp inside the 72dp adaptive-icon safe zone. Also used as the themed (monochrome) icon. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.0583333"
+        android:scaleY="0.0583333"
+        android:translateX="26"
+        android:translateY="26">
+        <group android:translateY="960">
+            <path
+                android:fillColor="#FFFFFF"
+                android:pathData="M480-40q-112 0-216-66T100-257v137H40v-240h240v60H143q51 77 145.5 138.5T480-100q78 0 147.5-30t121-81.5Q800-263 830-332.5T860-480h60q0 91-34.5 171T791-169q-60 60-140 94.5T480-40ZM40-480q0-91 34.5-171T169-791q60-60 140-94.5T480-920q112 0 216 66t164 151v-137h60v240H680v-60h137q-51-77-145-138.5T480-860q-78 0-147.5 30t-121 81.5Q160-697 130-627.5T100-480H40Z M303.6 -561.5V-615.3H675.1V-561.5ZM429.9 -619.7V-362.3Q429.9 -322.2 441.9 -304.9Q453.8 -287.6 481.7 -287.6Q511.8 -287.6 532.4 -301.6Q553.1 -315.5 564 -338.4Q574.9 -361.4 574.9 -386.9Q574.9 -400.4 571.5 -412.6Q559.5 -400 537.3 -400Q513 -400 496.1 -417.8Q479.2 -435.6 479.2 -461.7Q479.2 -489 497 -507Q514.8 -525.1 546.3 -525.1Q575.6 -525.1 598.5 -508.7Q621.4 -492.3 634.6 -462.4Q647.8 -432.4 647.8 -392.2Q647.8 -344.7 625.6 -305.6Q603.4 -266.4 564.6 -243.2Q525.8 -220 475.5 -220Q416.3 -220 386.1 -254.3Q355.9 -288.6 355.9 -353.8V-622.9Q355.9 -645.1 345.7 -655.9Q335.5 -666.7 318 -666.7Q315.7 -666.7 311.1 -666.2Q306.5 -665.6 301.5 -664.2L284.9 -734.2Q292.5 -736.6 303.2 -738.3Q313.9 -740 325.8 -740Q376.6 -740 403.3 -706.9Q429.9 -673.8 429.9 -619.7Z" />
+        </group>
+    </group>
+</vector>

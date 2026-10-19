@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Small app mark for the home top bar: white ৳ mark on a brand-blue rounded square. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="34dp"
+        android:height="34dp"
+        android:right="12dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/brand_blue" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+    <item
+        android:width="34dp"
+        android:height="34dp"
+        android:right="12dp"
+        android:drawable="@drawable/ic_launcher_foreground" />
+</layer-list>

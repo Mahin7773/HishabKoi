@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Loan history filter: one chip per kind of event, scrolls sideways if they don't fit. -->
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:layout_marginHorizontal="-8dp"
+    android:paddingHorizontal="10dp"
+    android:scrollbars="none">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/filter_chips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:chipSpacingHorizontal="8dp"
+        app:selectionRequired="true"
+        app:singleLine="true"
+        app:singleSelection="true" />
+</HorizontalScrollView>

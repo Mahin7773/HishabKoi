@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One figure on the wallet card: icon and label, amount lined up under the label (24dp icon + 8dp gap). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/stat_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/bg_white_circle"
+            android:importantForAccessibility="no"
+            android:padding="5dp"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/stat_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:alpha="0.9"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/stat_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:includeFontPadding="false"
+        android:textAppearance="?attr/textAppearanceTitleLarge"
+        android:textColor="@color/white"
+        android:textFontWeight="700" />
+</LinearLayout>

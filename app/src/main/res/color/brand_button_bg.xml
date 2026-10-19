@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Brand-blue button fill; faded while the button is disabled (e.g. during sign-in). -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:alpha="0.38" android:color="@color/brand_blue" android:state_enabled="false" />
+    <item android:color="@color/brand_blue" />
+</selector>
