@@ -1,4 +1,4 @@
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#E8F0FE','primaryBorderColor':'#0B57D0','primaryTextColor':'#1F1F1F','lineColor':'#5F6368','fontFamily':'Segoe UI, Arial','fontSize':'18px'}, 'flowchart':{'wrappingWidth':200,'nodeSpacing':30,'rankSpacing':40,'padding':10}}}%%
+﻿%%{init: {'theme':'base','themeVariables':{'primaryColor':'#E8F0FE','primaryBorderColor':'#0B57D0','primaryTextColor':'#1F1F1F','lineColor':'#5F6368','fontFamily':'Segoe UI, Arial','fontSize':'24px'}, 'flowchart':{'wrappingWidth':300,'nodeSpacing':35,'rankSpacing':45,'padding':12}}}%%
 flowchart TD
     subgraph S [" "]
         direction LR
@@ -9,27 +9,33 @@ flowchart TD
     end
 
     S --> PS
-    S --> FS
+    S --> W
 
-    subgraph PS [Personal - Room, this phone only]
+    subgraph PS [Personal - this phone only]
         direction TB
         P1[Add expense / income] --> P2[Transactions]
         P1 --> P3[Reports<br/>bars + donut]
-        P4[Manage categories]
+        P1 ~~~ P4[Manage categories]
     end
 
-    subgraph FS [Friends - Firestore, synced]
-        direction LR
+    subgraph W [Friends - synced online]
+    direction LR
+    subgraph FS [Requests]
+        direction TB
         F1[Borrow / Pay back<br/>request to @username] --> F2{Accepted?}
         F2 -- No --> F5[History]
         F2 -- Yes --> F3[Balances + wallet<br/>updated]
         F3 --> F5
-        F3 --> L{Debt loop?}
-        L -- Yes --> L1[Settle proposal<br/>to every member]
-        L1 --> L2{All agree?}
+    end
+
+    FS -- debt loop found --> LP
+
+    subgraph LP [Circular settle]
+        direction TB
+        L1[Proposal sent<br/>to every member] --> L2{All agree?}
         L2 -- Yes --> L3[Smallest debt cancelled<br/>around the loop]
-        L3 --> F3
-        L2 -- No --> F3
+        L2 -- No --> L4[Balances unchanged]
+    end
     end
 
     classDef personal fill:#E8F0FE,stroke:#0B57D0,color:#0B57D0
@@ -37,7 +43,11 @@ flowchart TD
     classDef loop fill:#F3E5FB,stroke:#7B2CBF,color:#5A1E8C
     class P1,P2,P3,P4 personal
     class F1,F2,F3,F5 friends
-    class L,L1,L2,L3 loop
+    class L1,L2,L3,L4 loop
+    style W fill:#FFFFFF,stroke:#5B3FD0
     style S fill:#FFFFFF,stroke:#FFFFFF
     style PS fill:#F7FAFF,stroke:#0B57D0
     style FS fill:#FAF8FF,stroke:#5B3FD0
+    style LP fill:#FBF6FE,stroke:#7B2CBF
+
+
