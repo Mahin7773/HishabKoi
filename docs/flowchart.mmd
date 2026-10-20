@@ -1,4 +1,4 @@
-﻿%%{init: {'theme':'base','themeVariables':{'primaryColor':'#E8F0FE','primaryBorderColor':'#0B57D0','primaryTextColor':'#1F1F1F','lineColor':'#5F6368','fontFamily':'Segoe UI, Arial','fontSize':'24px'}, 'flowchart':{'wrappingWidth':300,'nodeSpacing':35,'rankSpacing':45,'padding':12}}}%%
+﻿%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFFFFF','primaryBorderColor':'#000000','primaryTextColor':'#000000','lineColor':'#000000','textColor':'#000000','edgeLabelBackground':'#FFFFFF','clusterBkg':'#FFFFFF','clusterBorder':'#000000','fontFamily':'Segoe UI, Arial','fontSize':'34px'}, 'flowchart':{'wrappingWidth':360,'nodeSpacing':20,'rankSpacing':35,'padding':18,'diagramPadding':8,'subGraphTitleMargin':{'top':6,'bottom':26}}}}%%
 flowchart TD
     A([Open HishabKoi]) --> B{Logged in?}
     B -- No --> C[Log in / Sign up<br/>email + @username]
@@ -35,16 +35,11 @@ flowchart TD
     end
     end
 
-    classDef personal fill:#E8F0FE,stroke:#0B57D0,color:#0B57D0
-    classDef friends fill:#EEE8FD,stroke:#5B3FD0,color:#3B2A8F
-    classDef loop fill:#F3E5FB,stroke:#7B2CBF,color:#5A1E8C
-    class P1,P2,P3,P4 personal
-    class F1,F2,F3,F5 friends
-    class L1,L2,L3,L4 loop
-    style W fill:#FFFFFF,stroke:#5B3FD0
-    style PS fill:#F7FAFF,stroke:#0B57D0
-    style FS fill:#FAF8FF,stroke:#5B3FD0
-    style LP fill:#FBF6FE,stroke:#7B2CBF
+    classDef default fill:#FFFFFF,stroke:#000000,stroke-width:2px,color:#000000,font-size:34px
+    style W fill:#FFFFFF,stroke:#000000,stroke-width:2px
+    style PS fill:#FFFFFF,stroke:#000000,stroke-width:2px
+    style FS fill:#FFFFFF,stroke:#000000,stroke-width:1.5px
+    style LP fill:#FFFFFF,stroke:#000000,stroke-width:1.5px
 
 
 
