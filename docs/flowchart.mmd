@@ -1,15 +1,12 @@
 ﻿%%{init: {'theme':'base','themeVariables':{'primaryColor':'#E8F0FE','primaryBorderColor':'#0B57D0','primaryTextColor':'#1F1F1F','lineColor':'#5F6368','fontFamily':'Segoe UI, Arial','fontSize':'24px'}, 'flowchart':{'wrappingWidth':300,'nodeSpacing':35,'rankSpacing':45,'padding':12}}}%%
 flowchart TD
-    subgraph S [" "]
-        direction LR
-        A([Open HishabKoi]) --> B{Logged in?}
-        B -- No --> C[Log in / Sign up<br/>email + @username]
-        C --> D
-        B -- Yes --> D[Home<br/>balance, stats, debts]
-    end
+    A([Open HishabKoi]) --> B{Logged in?}
+    B -- No --> C[Log in / Sign up<br/>email + @username]
+    C --> D
+    B -- Yes --> D[Home<br/>balance, stats, debts]
 
-    S --> PS
-    S --> W
+    D --> PS
+    D --> W
 
     subgraph PS [Personal - this phone only]
         direction TB
@@ -45,9 +42,10 @@ flowchart TD
     class F1,F2,F3,F5 friends
     class L1,L2,L3,L4 loop
     style W fill:#FFFFFF,stroke:#5B3FD0
-    style S fill:#FFFFFF,stroke:#FFFFFF
     style PS fill:#F7FAFF,stroke:#0B57D0
     style FS fill:#FAF8FF,stroke:#5B3FD0
     style LP fill:#FBF6FE,stroke:#7B2CBF
+
+
 
 
