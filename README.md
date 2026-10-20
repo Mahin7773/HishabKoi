@@ -27,7 +27,7 @@ Firestore security rules (`firestore.rules`) only allow valid balance changes. E
 ## Flowchart
 
 <p align="center">
-  <img src="docs/flowchart.png" width="100%" alt="App flowchart">
+  <img src="docs/app-flowchart.png" width="100%" alt="App flowchart">
 </p>
 
 ## UML diagrams
