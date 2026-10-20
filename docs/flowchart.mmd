@@ -1,45 +1,47 @@
-﻿%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFFFFF','primaryBorderColor':'#000000','primaryTextColor':'#000000','lineColor':'#000000','textColor':'#000000','edgeLabelBackground':'#FFFFFF','clusterBkg':'#FFFFFF','clusterBorder':'#000000','fontFamily':'Segoe UI, Arial','fontSize':'34px'}, 'flowchart':{'wrappingWidth':360,'nodeSpacing':20,'rankSpacing':35,'padding':18,'diagramPadding':8,'subGraphTitleMargin':{'top':6,'bottom':26}}}}%%
+﻿%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFFFFF','primaryBorderColor':'#000000','primaryTextColor':'#000000','lineColor':'#000000','textColor':'#000000','edgeLabelBackground':'#FFFFFF','clusterBkg':'#FFFFFF','clusterBorder':'#000000','fontFamily':'Segoe UI, Arial','fontSize':'40px'}, 'flowchart':{'wrappingWidth':360,'nodeSpacing':20,'rankSpacing':35,'padding':18,'diagramPadding':8,'subGraphTitleMargin':{'top':6,'bottom':40}}}}%%
 flowchart TD
     A([Open HishabKoi]) --> B{Logged in?}
-    B -- No --> C[Log in / Sign up<br/>email + @username]
+    B -- No --> C[Log in / Sign up]
     C --> D
-    B -- Yes --> D[Home<br/>balance, stats, debts]
+    B -- Yes --> D[Home]
 
     D --> PS
     D --> W
 
-    subgraph PS [Personal - this phone only]
+    subgraph PS [Personal - offline]
         direction TB
-        P1[Add expense / income] --> P2[Transactions]
-        P1 --> P3[Reports<br/>bars + donut]
-        P1 ~~~ P4[Manage categories]
+        P1[Add transaction] --> P2[Transactions]
+        P1 --> P3[Reports]
+        P1 ~~~ P4[Categories]
     end
 
-    subgraph W [Friends - synced online]
+    subgraph W [Friends - online]
     direction LR
     subgraph FS [Requests]
         direction TB
-        F1[Borrow / Pay back<br/>request to @username] --> F2{Accepted?}
+        F1[Borrow / Repay<br/>request] --> F2{Accepted?}
         F2 -- No --> F5[History]
-        F2 -- Yes --> F3[Balances + wallet<br/>updated]
+        F2 -- Yes --> F3[Balances updated]
         F3 --> F5
     end
 
-    FS -- debt loop found --> LP
+    FS -- loop found --> LP
 
     subgraph LP [Circular settle]
         direction TB
-        L1[Proposal sent<br/>to every member] --> L2{All agree?}
-        L2 -- Yes --> L3[Smallest debt cancelled<br/>around the loop]
-        L2 -- No --> L4[Balances unchanged]
+        L1[Proposal to all] --> L2{All agree?}
+        L2 -- Yes --> L3[Smallest debt<br/>cancelled]
+        L2 -- No --> L4[No change]
     end
     end
 
-    classDef default fill:#FFFFFF,stroke:#000000,stroke-width:2px,color:#000000,font-size:34px
+    classDef default fill:#FFFFFF,stroke:#000000,stroke-width:2px,color:#000000,font-size:40px
     style W fill:#FFFFFF,stroke:#000000,stroke-width:2px
     style PS fill:#FFFFFF,stroke:#000000,stroke-width:2px
     style FS fill:#FFFFFF,stroke:#000000,stroke-width:1.5px
     style LP fill:#FFFFFF,stroke:#000000,stroke-width:1.5px
+
+
 
 
 
