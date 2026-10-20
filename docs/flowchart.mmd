@@ -10,9 +10,9 @@ flowchart TD
 
     subgraph PS [Personal - offline]
         direction TB
-        P1[Add transaction] ~~~ P2[Transactions]
+        P1[Add transaction] --> P2[Transactions]
         P1 --> P3[Reports]
-        P1 ~~~ P4[Categories]
+        P1 --> P4[Categories]
     end
 
     subgraph W [Friends - online]
@@ -46,3 +46,4 @@ flowchart TD
     style PS fill:#F5F7F9,stroke:#5E7183,stroke-width:2px
     style FS fill:#F7F4F0,stroke:#9A8E82,stroke-width:1.5px
     style LP fill:#F2F6F3,stroke:#7F9186,stroke-width:1.5px
+
